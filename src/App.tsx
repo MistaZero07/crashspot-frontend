@@ -1,8 +1,11 @@
+import MapView from "./MapView";
+
 export default function App() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+    <div style={{ maxWidth: 900, margin: "3rem auto", padding: "0 1rem" }}>
       <h1>🚗 Crashspot Web App</h1>
-      <p>Welcome! This will visualize crash data in Louisiana soon.</p>
+      <p>Interactive crash visualization (starter).</p>
+      <MapView />
     </div>
-  )
+  );
 }
