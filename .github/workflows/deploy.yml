@@ -36,7 +36,14 @@ jobs:
         run: |
           npm run build
           [ -f dist/404.html ] || cp dist/index.html dist/404.html
+          touch dist/.nojekyll
+          
+      - name: List built files (top level)
+        run: ls -la dist
 
+      - name: list built assets
+        run: ls -la dist/assets
+        
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
