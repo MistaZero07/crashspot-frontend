@@ -21,19 +21,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show the index.html used
+        run: sed -n '1,20p' index.html
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Works even without a lockfile and bypasses peer-dep conflicts
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
       - name: Build
         run: |
           npm run build
-          # already copies 404.html in package.json, but keep it safe:
           [ -f dist/404.html ] || cp dist/index.html dist/404.html
 
       - name: Upload Pages artifact
