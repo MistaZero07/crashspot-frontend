@@ -2,6 +2,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: "/Crashspot-frontend/",
   plugins: [react()],
+  base: '/Crashspot-frontend/', // must match repo name exactly
 })
