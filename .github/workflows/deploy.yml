@@ -26,14 +26,15 @@ jobs:
         with:
           node-version: 20
 
-      # 👇 This makes it work even without a lockfile
+      # Works even without a lockfile and bypasses peer-dep conflicts
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
-      - name: Build project
+      - name: Build
         run: |
           npm run build
-          cp dist/index.html dist/404.html || true
+          # already copies 404.html in package.json, but keep it safe:
+          [ -f dist/404.html ] || cp dist/index.html dist/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
