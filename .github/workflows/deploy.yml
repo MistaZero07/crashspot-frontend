@@ -14,9 +14,6 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
-env:
-  APP_DIR: .   # <-- CHANGE THIS if package.json is in a folder, e.g. apps/frontend
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,26 +26,19 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install deps (works with or without lockfile)
-        working-directory: ${{ env.APP_DIR }}
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+      # 👇 This makes it work even without a lockfile
+      - name: Install dependencies
+        run: npm install
 
-      - name: Build
-        working-directory: ${{ env.APP_DIR }}
+      - name: Build project
         run: |
           npm run build
-          # If you use BrowserRouter, keep this line; otherwise it's harmless.
-          if [ -f dist/index.html ]; then cp dist/index.html dist/404.html; fi
+          cp dist/index.html dist/404.html || true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.APP_DIR }}/dist
+          path: dist
 
   deploy:
     environment:
